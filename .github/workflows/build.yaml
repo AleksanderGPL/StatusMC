@@ -1,0 +1,19 @@
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/sdk:8.0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Build
+      run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
+      
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: StatusMC
+        path: StatusMC/bin/Release/net8.0/win-x64/publish/StatusMC.exe
